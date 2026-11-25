@@ -1,0 +1,17 @@
+{
+  "name": "dev-skills",
+  "owner": { "name": "tsubasa-km" },
+  "metadata": { "description": "アプリ開発の進め方(スタック選定・ドキュメント駆動・PDCA)と OKF のスキル" },
+  "plugins": [
+    {
+      "name": "dev-workflow",
+      "source": "./plugins/dev-workflow",
+      "description": "スタック選定、ドキュメント駆動開発、PDCA のスキル"
+    },
+    {
+      "name": "okf",
+      "source": "./plugins/okf",
+      "description": "Open Knowledge Format v0.3 バンドルの作成・検証・参照(Google 公開のスキルを無改変で同梱、Apache-2.0)"
+    }
+  ]
+}

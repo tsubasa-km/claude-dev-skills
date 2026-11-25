@@ -1,0 +1,8 @@
+{
+  "name": "dev-workflow",
+  "description": "スタック選定、ドキュメント駆動開発(OKF + SPEC.md)、PDCA のスキル",
+  "version": "0.1.0",
+  "author": {
+    "name": "tsubasa-km"
+  }
+}
