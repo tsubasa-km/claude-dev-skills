@@ -1,6 +1,6 @@
 # dev-skills
 
-アプリ開発の進め方をまとめた Claude 用のスキル集。Claude Code のプラグインマーケットプレイスとして使え、claude.ai にもアップロードできる。
+アプリ開発の進め方をまとめた Claude 用のスキル集。Claude Code / claude.ai のプラグインマーケットプレイスとして使える。
 
 ## 中身
 
@@ -13,9 +13,21 @@
 
 `doc-driven` は OKF の書き方と検証を `okf-generate` に任せるので、2つのプラグインを一緒に入れる。
 
-## Claude Code で使う
+## 使い方(おすすめ: claude.ai から GitHub を参照する)
 
-非公開リポジトリなので、先に各マシンで GitHub に git で接続できるようにしておく(SSH 鍵、または `gh auth login` と `gh auth setup-git`)。
+公開リポジトリなので、claude.ai にマーケットプレイスとして登録すれば、push した内容がそのまま届く。
+
+1. claude.ai の左のサイドバーで **Customize** → **Plugins** → **Add** → **Add marketplace** → **Add from a repository** を選び、`tsubasa-km/claude-dev-skills` を入れる。
+2. 一覧に出る `dev-workflow` と `okf` を入れる。
+3. 同じアカウントでログインした Claude Code(v2.1.273 以降)は、起動のたびに claude.ai のプラグインを同期する。どのマシンでも追加の設定は要らない。
+
+更新は、このリポジトリに push するだけで配られる(`plugin.json` に `version` を書いていないので、コミットごとに新しい版として扱われる)。
+
+- claude.ai のプラグインと、zip のアップロードや手元の `claude plugin install` を併用すると同じスキルが二重に見えるので、どれか1つにする。
+
+## ほかの使い方
+
+**Claude Code だけで使う**(マシンごとに1回):
 
 ```sh
 claude plugin marketplace add tsubasa-km/claude-dev-skills
@@ -23,29 +35,14 @@ claude plugin install dev-workflow@dev-skills
 claude plugin install okf@dev-skills
 ```
 
-github.com の SSH 鍵が別のアカウントに結びついているマシンでは、個人用の鍵を使う SSH の別名(例: `~/.ssh/config` の `Host private.github.com`)を URL で指定する。
+自動で更新するには、`/plugin` の Marketplaces で `dev-skills` の自動更新を有効にする。
 
-```sh
-claude plugin marketplace add git@private.github.com:tsubasa-km/claude-dev-skills.git
-```
+**claude.ai にスキルとして直接アップロードする**: `./scripts/build-claudeai-zips.sh` で `dist/<スキル名>.zip` を作り、Customize > Skills からアップロードする。更新のたびに上げ直しが要る。
 
-セッション内なら `/plugin marketplace add tsubasa-km/claude-dev-skills` と `/plugin install dev-workflow@dev-skills`。スキルは `dev-workflow:pdca` のように呼べる。
-
-更新を自動で受け取るには、`/plugin` の Marketplaces で `dev-skills` の自動更新を有効にする(手動なら `claude plugin marketplace update dev-skills`)。更新を配るときは `plugin.json` の `version` を上げる。
-
-## claude.ai で使う(どのマシンの Claude Code にも同期される)
-
-```sh
-./scripts/build-claudeai-zips.sh   # dist/<スキル名>.zip を作る
-```
-
-claude.ai の Customize > Skills で zip をアップロードして有効にする。同じアカウントでログインした Claude Code(ターミナル)にも `~/.claude/skills/synced/` として同期され、クラウドのセッションでも使える。
-
-- claude.ai と Claude Code のプラグインの両方で同じスキルを入れると二重に見えるので、マシンではどちらか一方にする。
-- claude.ai が受け付ける SKILL.md の先頭の項目は `name`, `description`, `license`, `compatibility`, `metadata`, `allowed-tools` だけ。ここのスキルはこの範囲で書いている。
+claude.ai が受け付ける SKILL.md の先頭の項目は `name`, `description`, `license`, `compatibility`, `metadata`, `allowed-tools` だけ。ここのスキルはこの範囲で書いている。
 
 ## 編集するとき
 
 - スキルの本文は `plugins/<プラグイン>/skills/<スキル>/SKILL.md`。
-- 変更後は `claude plugin validate .` を通し、`version` を上げてから push する。
+- 変更後は `claude plugin validate .` を通してから push する。
 - 試すだけなら `claude --plugin-dir plugins/dev-workflow --plugin-dir plugins/okf` で、その場限りで読み込める。

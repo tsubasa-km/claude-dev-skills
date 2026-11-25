@@ -1,7 +1,6 @@
 {
   "name": "okf",
   "description": "Open Knowledge Format v0.3 バンドルの作成・検証(okf-generate)と参照(okf-consume)",
-  "version": "0.1.0",
   "author": {
     "name": "tsubasa-km"
   },
